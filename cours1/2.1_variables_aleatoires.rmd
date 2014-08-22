@@ -9,6 +9,25 @@ runtime: shiny
 
 # L'aléatoire
 
+## L'aléatoire
+
+## Probabilité
+
+## Types de mesures
+
+- Mesure qualitative
+     + nominale
+     + ordinale
+- Mesure quantitative
+     + discrète
+     + continue
+
+--|--------------------------------|---
+A | Catégorie socio-professionelle | ...
+B | Un peu, beaucoup, ...          | ...
+C | Age (années)                   | ...
+D | Distance (?)                   | ...
+
 # Lois discrètes usuelles
 
 # Lois continues usuelles
