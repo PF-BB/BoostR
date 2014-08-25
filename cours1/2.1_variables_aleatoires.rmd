@@ -58,10 +58,10 @@ D | Distance (?)                   | ...
 ## Uniforme
 
 ```{r source_unif, echo=FALSE}
-source('~/unif.R')
-source('~/gaussienne.R')
-source('~/chideux.R')
-source('~/student.R')
+source('../package/unif.R')
+source('../package/gaussienne.R')
+source('../package/chideux.R')
+source('../package/student.R')
 ```
 
 ```{r unif, echo = FALSE}
