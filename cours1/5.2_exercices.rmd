@@ -1,0 +1,25 @@
+---
+title: "Bases de R -- Exercices "
+subtitle: "BoostR"
+author: "Vincent Guillemot"
+date: "Lundi 15 sept. 2014"
+output: ioslides_presentation
+runtime: shiny
+---
+
+## 1. Booléens {.build}
+
+Qu'est-ce que j'ai fait ?
+```{r Bool_ex}
+x <- 1:10
+y <- (x %% 2 == 0) | (x %% 3 == 0)
+data.frame(x, y)
+```
+
+## 2. Opérations {.build}
+
+Qu'est-ce que j'ai fait ?
+```{r Bool_ex2}
+x <- -5:5
+data.frame(x, plus=x+4, exp1=x**2, exp2=x^2, cos=cos(pi*x))
+```

@@ -6,3 +6,51 @@ date: "Lundi 15 sept. 2014"
 output: ioslides_presentation
 runtime: shiny
 ---
+
+# Commandes, objets et classes
+
+
+## Commandes de base
+
+  R | Signification | Exemples
+--- | ------------- | -------
+`>` | "_Prompt_", ou invite de commande      |
+`<-`| Affection d'une valeur à une variable     | `a <- 0`
+`=` | Affectation,  fonctions | `a = 0` ou `cos(0)`
+`+`, `-`, `*`, `/`, "^" | Opérations usuelles | `1+1` ou `b <- 3*4` ou `sin(2*pi)`
+`==`, `<=`, `>=`, `<`, `>`, `!=`| Opérateurs logiques |  `2 != 3` ou `a < b`
+`&`, `|`, `!`, `xor`| Opérateurs logiques |  `(a != 1) & (b > 0)`
+
+## Syntaxe {.build}
+
+Certains espaces sont importants...
+
+> - `x <- 1` : la variable `x` contient la valeur 1.
+> - `x < -1` : est-ce que la valeur prise par la variable `x` est plus petite que -1 ?
+> - `x <- -1` : la variable `x` contient la valeur -1.
+> - `y <- 1:10` : la variable `x` contient la valeur -1.
+
+D'autres servent à la lisibilité...
+
+> - `x <- 1` est équivalent à `x<-1`.
+> - `x <- -1` est équivalent à `x<--1`.
+
+## Obtenir de l'aide
+
+  R | Signification | Exemples
+--- | ------------- | -------
+`?` | Aide rapide   | `?mean` ou `?"mean"` mais pas `?t-test`
+`help` | Version plus complète de `?` | `help("mean")` mais pas `help("t-test")`
+`??` | Aide rapide  sur un sujet | `??variance` ou `??"variance"`
+`help.search` | Version plus complète de `??` | `help.search("t-test")` mais pas `help("t-test")`
+`RSiteSearch` | Aide en ligne | `RSiteSearch("Fleiss' kappa")`
+
+# Fonctionalités de RStudio
+
+
+# R Markdown
+
+
+
+
+

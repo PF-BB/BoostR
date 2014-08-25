@@ -11,7 +11,24 @@ runtime: shiny
 
 ## L'aléatoire
 
+> Définition
+
+## Exemples
+
+Déterministe | Aléatoire
+--- | ---
+Âge | Âge
+
 ## Probabilité
+
+Diagramme de Venn
+
+## Probabilité -- Densité
+
+
+## Probabilité -- Distribution
+
+
 
 ## Types de mesures
 
@@ -30,9 +47,48 @@ D | Distance (?)                   | ...
 
 # Lois discrètes usuelles
 
+## Bernoulli
+
+## Binomiale
+
+## Poisson
+
 # Lois continues usuelles
 
-# Ponts
+## Uniforme
+
+```{r source_unif, echo=FALSE}
+source('~/unif.R')
+source('~/gaussienne.R')
+source('~/chideux.R')
+source('~/student.R')
+```
+
+```{r unif, echo = FALSE}
+unif()
+```
+
+## Gaussienne
+
+```{r gaussienne, echo = FALSE}
+gaussienne()
+```
+
+## $\chi^2$
+
+```{r chideux, echo = FALSE}
+chideux()
+```
+
+## Fisher
+
+## Student
+
+```{r student, echo = FALSE}
+student()
+```
+
+# Parentées
 
 
 
