@@ -3,7 +3,9 @@ title: "BoostR <br> Biostatistique avec R"
 subtitle: "Introduction à l'utilisation du logiciel R en Biostatistique"
 author: "Vincent Guillemot"
 date: "Lundi 15 sept. 2014"
-output: ioslides_presentation
+output:
+  ioslides_presentation:
+    mathjax: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 runtime: shiny
 ---
 
@@ -24,8 +26,7 @@ knit_hooks$set(source = function(x, options){
 ## But de la Formation
 
  - Rappels de Biostatistique
-\[\bar x = \frac{1}{n}\sum_{i=1}^n x_i, s^2 = \frac{1}{n-1}\sum_{i=1}^n \left( x_i - \bar x \right)^2\]
-
+ \[\bar x = \frac{1}{n}\sum_{i=1}^n x_i, s^2 = \frac{1}{n-1}\sum_{i=1}^n \left( x_i - \bar x \right)^2\]
  - Utilisation du logiciel R
 ```{r}
 x <- rnorm(100)
