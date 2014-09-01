@@ -36,14 +36,10 @@ var(x)
 
 ## Biostatistique
 
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
+> Biostatistique : Ensemble des méthodes et développements statistiques appliqués à la médecine et la biologie.
 
 
- - Estimation
+### 1. Estimation
  
 ```{r estimation, echo=FALSE, fig.align='center'}
 X <- data.frame(a=c(rnorm(50,1),rnorm(50,3)), b=factor(rep(1:2,e=50)))
@@ -52,13 +48,9 @@ boxplot(X$a, border = "steelblue", lwd=2, horizontal=TRUE, xlab="Mesures")
 
 ## Biostatistique
 
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
+> Biostatistique : Ensemble des méthodes et développements statistiques appliqués à la médecine et la biologie.
 
- - Tests d'hypothèses
+### 2. Tests d'hypothèses
 
 ```{r test, echo=FALSE, fig.align='center'}
 boxplot(a ~ b, data = X, border = "steelblue", lwd=2, horizontal=TRUE, las=1, xlab="Mesures")
@@ -66,13 +58,9 @@ boxplot(a ~ b, data = X, border = "steelblue", lwd=2, horizontal=TRUE, las=1, xl
 
 ## Biostatistique
 
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
+> Biostatistique : Ensemble des méthodes et développements statistiques appliqués à la médecine et la biologie.
 
- - Modèles linéaires
+### 3. Modèles linéaires
  
 ```{r modele_lineaire, echo=FALSE, fig.align='center'}
 x <- rnorm(100)
@@ -122,6 +110,16 @@ x <- rnorm(100)
 mean(x)
 ```
 
+## R Commander (`Rcmdr`)
+
+<center><a href="http://www.rcommander.com">
+  <img 
+  src="../images/rcommander2.png" 
+  alt="R Studio"
+  width=500 border=0/>
+</a></center>
+
+
 ## Supports de cours -- GitHub
 
 <center><a href="https://github.com/PF-BB/BoostR">
@@ -131,10 +129,11 @@ mean(x)
   width=500 border=0/>
 </a></center>
 
-## Ressources pédagogiques -- Biostatistique
+## Ressources pédagogiques
 
+Des liens vers des ressources seront ajoutés au fur et à mesure sur le mini-site de la formation :  
 
-## Ressources pédagogiques -- R
+<center> <font size="10"> http://pf-bb.github.io/BoostR/ </font> </a> </center>
 
 
 # Let's go!

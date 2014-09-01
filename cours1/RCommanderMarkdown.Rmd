@@ -1,0 +1,100 @@
+<!-- R Commander Markdown Template -->
+
+*********************************
+
+Analyse du jeu de données Quartet
+=================================
+## John Doe, `r as.character(Sys.Date())`
+
+*********************************
+
+```{r echo=FALSE}
+# include this code chunk as-is to set options
+knitr::opts_chunk$set(comment=NA, prompt=TRUE, out.width=750, fig.height=8, fig.width=8)
+library(Rcmdr)
+library(car)
+library(RcmdrMisc)
+```
+
+Le rapport suivant contient des commandes générées uniquement via l'utilisation des fonctionnalités de `Rcmdr`. 
+
+### I. Statistiques descriptives
+
+Chargement dans un premier temps du package car et du jeu de données appelé Quartet.
+
+```{r}
+data(Quartet, package="car")
+```
+
+Le tableau suivant résume les caractéristiques de chaque variable du jeu de données étudié.
+
+```{r, echo=FALSE, results='asis'}
+resu <- numSummary(Quartet[,c("y1", "y2", "y3", "y4")], statistics=c("mean", "sd", 
+  "se(mean)", "IQR", "quantiles", "cv", "skewness", "kurtosis"), 
+  quantiles=c(0,.25,.5,.75,1), type="2")$table
+knitr::kable(resu, "markdown")
+```
+
+### II. Tests d'hypothèse
+
+Ensuite on effectue un test de Student apparié entre deux des variables du jeu de données Quartet.
+
+```{r, echo=FALSE}
+with(Quartet, (t.test(x4, y1, alternative='two.sided', conf.level=.95, 
+  paired=TRUE)))
+```
+
+Une autre possibilité sur les même données est d'effectuer un test de Wilcoxon.
+
+```{r}
+with(Quartet, median(y3 - y4, na.rm=TRUE)) # median difference
+with(Quartet, wilcox.test(y3, y4, alternative='two.sided', paired=TRUE))
+```
+
+### III. Visualisation
+
+Une première visualisation possible est l'histogramme.
+
+```{r, echo=F}
+with(Quartet, Hist(y1, scale="frequency", breaks="Sturges", col="steelblue"))
+```
+
+Ensuite on peut tout à fait vouloir représenter les variations d'une des variables en fonction d'une autre.
+La fonction scatterplot permet de représenter graphiquement énormément d'information sur les deux variables :
+
+ * Quartiles,
+ * Outliers,
+ * Droite de régression,
+ * Droite de "tendance",
+ * etc.
+
+```{r}
+scatterplot(y4~y3, reg.line=lm, smooth=TRUE, spread=TRUE, boxplots='xy', 
+  span=1, data=Quartet)
+```
+
+### III. Modèles
+
+
+Les modèles permettent de formuler et tester des hypothèses plus riches qu'avec des tests.
+
+```{r}
+LinearModel.2 <- lm(y1 ~ x +x4 +y4 +y2*y4, data=Quartet)
+summary(LinearModel.2)
+```
+
+
+
+```{r}
+library(zoo, pos=25)
+```
+
+```{r}
+library(lmtest, pos=25)
+```
+
+```{r}
+bptest(y1 ~ x + x4 + y4 + y2 * y4, varformula = ~ 
+  fitted.values(LinearModel.2), studentize=TRUE, data=Quartet)
+```
+

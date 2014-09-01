@@ -1,12 +1,26 @@
 ---
 title: "Estimation ponctuelle"
-subtitle: "BoostR"
 author: "Vincent Guillemot"
 date: "Lundi 15 sept. 2014"
 output: ioslides_presentation
-runtime: shiny
+subtitle: BoostR
 ---
 
 # Notion de variable aléatoire
+
+## bla
+
+
+What if we want to <i>*italicize*</i> or **bold**?
+
+* In a list, I may want to _italicize_ or __bold__ this way.
+
+I can also include inline `code` or 
+
+```
+blocks of code
+```
+Or even a [link](http://google.com)
+
 
 # Estimation

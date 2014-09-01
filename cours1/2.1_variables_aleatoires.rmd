@@ -9,15 +9,27 @@ runtime: shiny
 
 # L'aléatoire
 
-## L'aléatoire
+## Aléatoire {.build}
 
-> Définition
+**aleatorius** : « qui concerne le jeu (de hasard) »
+
+_Grandeur (ou variable) aléatoire._ "C'est une grandeur susceptible de prendre un certain nombre de valeurs à chacune desquelles est attachée une probabilité." (Birou 1966).
+
+_Nombre aléatoire._ Nombre dont chacun des chiffres a été obtenu par tirage au sort.
+
+_Erreur aléatoire._ Élément de l'erreur d'échantillonnage qui pourrait être réduit ou supprimé si l'on procédait à de très nombreux tirages.
+
+_Fonction aléatoire._ Grandeur aléatoire dont la loi de probabilité varie en fonction du temps.
+
+(http://www.cnrtl.fr)
 
 ## Exemples
 
-Déterministe | Aléatoire
 --- | ---
-Âge | Âge
+Déterministe | Age, 
+Aléatoire | Age, 
+
+
 
 ## Probabilité
 
@@ -55,14 +67,15 @@ D | Distance (?)                   | ...
 
 # Lois continues usuelles
 
-## Uniforme
-
-```{r source_unif, echo=FALSE}
+```{r source_continues, echo=FALSE}
 source('../package/unif.R')
 source('../package/gaussienne.R')
 source('../package/chideux.R')
 source('../package/student.R')
+source('../package/fisher.R')
 ```
+
+## Uniforme
 
 ```{r unif, echo = FALSE}
 unif()
@@ -81,6 +94,10 @@ chideux()
 ```
 
 ## Fisher
+
+```{r fisher, echo = FALSE}
+fisher()
+```
 
 ## Student
 

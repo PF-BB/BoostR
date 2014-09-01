@@ -1,199 +1,30 @@
 ---
-title: "BoostR <br> Biostatistique avec R"
-subtitle: "Introduction à l'utilisation du logiciel R en Biostatistique"
+title: "Tests d'hypothèse"
+subtitle: "BoostR"
 author: "Vincent Guillemot"
-date: "Lundi 15 sept. 2014"
+date: "Mardi 16 sept. 2014"
 output: ioslides_presentation
 runtime: shiny
 ---
 
-```{r echo = FALSE, message=FALSE}
-require(knitr)
-hook_source_def = knit_hooks$get('source')
-knit_hooks$set(source = function(x, options){
-  if (!is.null(options$verbatim) && options$verbatim){
-    opts = gsub(",\\s*verbatim\\s*=\\s*TRUE\\s*", "", options$params.src)
-    bef = sprintf('\n\n    ```{r %s}\n', opts, "\n")
-    stringr::str_c(bef, paste(knitr:::indent_block(x, "    "), collapse = '\n'), "\n    ```\n")
-  } else {
-     hook_source_def(x, options)
-  }
-})
-```
+## Test d'hypothèse
 
-## But de la Formation
+> Evaluation d'un certain type de modèles statistiques à partir d'un jeu de données.
 
- - Rappels de Biostatistique
-\[\bar x = \frac{1}{n}\sum_{i=1}^n x_i, s^2 = \frac{1}{n-1}\sum_{i=1}^n \left( x_i - \bar x \right)^2\]
+Hypothèse nulle | Hypothèse alternative
+--- | ----
+La moyenne vaut 0 | La moyenne est différente de 0
+La moyenne est suppérieure à 0 | La moyenne est inférieure à 0
+La corrélation vaut 0 | La corrélation est différente de 0
+Les $k$ moyennes sont égales | Au moins deux des moyennes sont différentes
 
- - Utilisation du logiciel R
-```{r}
-x <- rnorm(100)
-mean(x)
-var(x)
-```
+## Exemple
 
-
-## Biostatistique
-
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-
-
- - Estimation
- 
-```{r estimation, echo=FALSE, fig.align='center'}
-X <- data.frame(a=c(rnorm(50,1),rnorm(50,3)), b=factor(rep(1:2,e=50)))
-boxplot(X$a, border = "steelblue", lwd=2, horizontal=TRUE, xlab="Mesures")
-```
-
-## Biostatistique
-
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-
- - Tests d'hypothèses
-
-```{r test, echo=FALSE, fig.align='center'}
-boxplot(a ~ b, data = X, border = "steelblue", lwd=2, horizontal=TRUE, las=1, xlab="Mesures")
-```
-
-## Biostatistique
-
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-
- - Modèles linéaires
- 
-```{r modele_lineaire, echo=FALSE, fig.align='center'}
-x <- rnorm(100)
-y <- -2*x + 0.8*rnorm(100)
-plot(x, y, col="steelblue", pch=16)
-abline(lm(y~x), col="grey", lwd=3)
+```{r beeswarm, echo=FALSE, message=FALSE}
+require(beeswarm)
+beeswarm(data.frame(x=rnorm(100), y=rnorm(100,2)), pch=16, col="steelblue")
 grid()
 ```
 
-## Comprehensive R Archive Network -- CRAN
-
-<center><a href="http://www.cran.r-project.org">   <img 
-  src="images/logo_R.png"
-  alt="CRAN"
-  width=500 border="0"/>
-</a></center>
-
-## R Studio
-
-<center><a href="http://www.rstudio.com">
-  <img 
-  src="images/RStudio-Ball.png" 
-  alt="R Studio"
-  width=500 border=0/>
-</a></center>
 
 
-## R Markdown
-
-``` ### Titre de paragraphe ```
-```Générer un échantillon aléatoire de taille 100, ```
-```puis calculer sa moyenne : ```
-```{r, eval=FALSE, verbatim = TRUE}
-x <- rnorm(100)
-mean(x)
-```
-
-## R Markdown
-
-### Titre de paragraphe
-
-Générer un échantillon aléatoire de taille 100,
-puis calculer sa moyenne :
-
-```{r}
-x <- rnorm(100)
-mean(x)
-```
-
-## Supports de cours -- GitHub
-
-<center><a href="https://github.com/PF-BB/BoostR">
-  <img 
-  src="images/notocat.jpg" 
-  alt="GitHub"
-  width=500 border=0/>
-</a></center>
-
-## Ressources pédagogiques -- Biostatistique
-
-
-## Ressources pédagogiques -- R
-
-
-# Let's go!
-
-<center>
-![Roomba](images/roomba.gif)
-
-</center>
-## Shiny something
-
-```{r cluster_shiny, echo=FALSE}
-kmeans_cluster <- function(dataset) { 
-  
-  require(shiny)  
-  
-  shinyApp(
-    ui = fluidPage(responsive = FALSE,
-      fluidRow(style = "padding-bottom: 20px;",
-        column(4, selectInput('xcol', 'X Variable', names(dataset))),
-        column(4, selectInput('ycol', 'Y Variable', names(dataset),
-                              selected=names(dataset)[[2]])),
-        column(4, numericInput('clusters', 'Cluster count', 3,
-                               min = 1, max = 9))
-      ),
-      fluidRow(
-        plotOutput('kmeans', height = "400px")  
-      )
-    ),
-    
-    server = function(input, output, session) {
-      
-      # Combine the selected variables into a new data frame
-      selectedData <- reactive({
-        dataset[, c(input$xcol, input$ycol)]
-      })
-      
-      clusters <- reactive({
-        kmeans(selectedData(), input$clusters)
-      })
-      
-      output$kmeans <- renderPlot(height = 400, {
-        par(mar = c(5.1, 4.1, 0, 1))
-        plot(selectedData(),
-             col = clusters()$cluster,
-             pch = 20, cex = 3)
-        points(clusters()$centers, pch = 4, cex = 4, lwd = 4)
-      })
-    },
-    
-    options = list(height = 500)
-  )
-}
-
-```
-
-```{r kmeans_cluster, echo = FALSE}
-# library(rmdexamples)
-kmeans_cluster(iris)
-```
-
-
-(allongement des télomères alternatif (ALT) et de la télomérase transcriptase réverse (TERT), mutation du promoteur, statut mutationnel (H3.3 ou H3.1 K27, H3.3 G34, IDH1, TP53 et NF1), et des aberrations du nombre de copies de EGFR, CDKN2A, CDKN2B et PDGFRA. Ces associations sont regroupées par sous-groupe biologique et triés par âge.
