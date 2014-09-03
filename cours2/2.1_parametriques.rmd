@@ -1,39 +1,27 @@
 ---
-title: "Variables aléatoires"
+title: "Quelques tests paramétriques"
 subtitle: "BoostR"
 author: "Vincent Guillemot"
-date: "Lundi 15 sept. 2014"
+date: "Mardi 16 sept. 2014"
 output: ioslides_presentation
-runtime: shiny
 ---
 
-# L'aléatoire
+# Moyenne(s)
 
-## L'aléatoire
+## Test $Z$
 
-## Probabilité
+## Test de Student
 
-## Types de mesures
+## Test de Student
 
-- Mesure qualitative
-     + nominale
-     + ordinale
-- Mesure quantitative
-     + discrète
-     + continue
+## Test de Student
 
---|--------------------------------|---
-A | Catégorie socio-professionelle | ...
-B | Un peu, beaucoup, ...          | ...
-C | Age (années)                   | ...
-D | Distance (?)                   | ...
+## ANOVA
 
-# Lois discrètes usuelles
+# Variance(s)
 
-# Lois continues usuelles
+## Test de Fisher
 
-# Ponts
+## Test de Bartlett
 
-
-
-
+# Corrélation
