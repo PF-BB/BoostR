@@ -72,7 +72,7 @@ Les $k$ moyennes sont égales | Au moins deux des moyennes sont différentes
 ## Approche de Neyman & Pearson -- Erreurs de types I et II
 
 |                              | $\mathcal H_0$ est vraie | $\mathcal H_0$ est fausse |
-|------------------------------|:------------------------:|:-------------------------:|
+|------------------------------|--------------------------|---------------------------|
 | $\mathcal H_0$ est acceptée  |                          |    Erreur de type I       |
 | $\mathcal H_0$ est rejetée   |     Erreur de type II    |                           |
 
@@ -84,10 +84,4 @@ Les $k$ moyennes sont égales | Au moins deux des moyennes sont différentes
 
 ## Approche de Fisher
 
----
-canonique:   12345
-decimal:     +12_345
-sexagesimal: 3:25:45
-octal:       030071
-hexadecimal: 0x3039
----
+

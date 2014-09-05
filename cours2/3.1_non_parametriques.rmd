@@ -1,12 +1,19 @@
 ---
-title: "Estimation ponctuelle"
+title: "Quelques tests non-paramétriques"
 subtitle: "BoostR"
 author: "Vincent Guillemot"
-date: "Lundi 15 sept. 2014"
+date: "Mardi 16 sept. 2014"
 output: ioslides_presentation
-runtime: shiny
 ---
 
-# Notion de variable aléatoire
+# "Position"
 
-# Estimation
+## Rangs
+
+## Test de Wilcoxon
+
+## Test de Mann-Whitney
+
+## Test de Kuskal-Wallis
+
+## Procédure(s) post-hoc

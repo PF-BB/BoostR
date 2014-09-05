@@ -18,6 +18,8 @@ output: ioslides_presentation
 
 ## ANOVA
 
+## Procédure(s) post-hoc
+
 # Variance(s)
 
 ## Test de Fisher
@@ -25,3 +27,7 @@ output: ioslides_presentation
 ## Test de Bartlett
 
 # Corrélation
+
+## Transformation
+
+## Test Z appliqué à la corrélation
