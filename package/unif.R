@@ -7,14 +7,14 @@ unif <- function() {
                             column(4, sliderInput('a', 'Paramètre a', -maxi, maxi, 0, 0.1)), 
                             column(4, sliderInput('b', 'Paramètre b', -maxi, maxi, 1, 0.1))),
                    mainPanel(tabsetPanel(
-                     tabPanel("Densité de probabilité", fluidRow(plotOutput('dens'), height = "375px")),
-                     tabPanel("Distribution de probabilité", fluidRow(plotOutput('dist'), height = "375px")),
+                     tabPanel("Distribution de probabilité", fluidRow(plotOutput('dist'), height = "400px")),
+                     tabPanel("Fonction de répartition", fluidRow(plotOutput('repa'), height = "400px")),
                      tabPanel("Moyenne et écart-type", fluidRow(tableOutput('mean_std'), height = "375px"))
                    ))
     ),
     server = function(input, output, session) { 
 
-      output$dens <- renderPlot(height = 375, {
+      output$dist <- renderPlot(height = 375, {
         plot(function(x) dunif(x,input$a,input$b), 
              lwd=2, xlab="x", ylab="Densité", 
              xlim=extendrange(c(-maxi,maxi)), ylim=0:1,  
@@ -22,7 +22,7 @@ unif <- function() {
         grid()
       })
 
-      output$dist <- renderPlot(height = 375, {
+      output$repa <- renderPlot(height = 375, {
         plot(function(x) punif(x,input$a,input$b), 
              lwd=2, xlab="x", ylab="Quantile", 
              xlim=extendrange(c(-maxi,maxi)), ylim=0:1,  

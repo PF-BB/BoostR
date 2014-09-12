@@ -23,23 +23,46 @@ _Fonction aléatoire._ Grandeur aléatoire dont la loi de probabilité varie en 
 
 (http://www.cnrtl.fr)
 
-## Exemples
+## Evénements
 
 --- | ---
-Déterministe | Age, 
-Aléatoire | Age, 
+Déterministe | Age, dé, l'intensité d'un courant électrique en fonction de la tension...
+Aléatoire | Age, Météo, Poids, dé, taille des poissons pêchés...
+
+<br>
+
+> * Ensemble des valeurs prises : événement.
+> * Degré de certitude d'apparition d'un événement : probabilité (comprise entre 0 et 1).
+> * La probabilité de l'univers est de 1 !
+
+## Probabilité {.smaller}
+
+```{r, echo=FALSE, message=FALSE,results='hide'}
+require(VennDiagram)
+draw.pairwise.venn(100, 70, 30, c("A", "B"))
+```
 
 
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B) \text{ et } P(A | B) = \frac{P(A \cap B)}{P(B)}$$
 
-## Probabilité
+## Probabilité -- Distribution de probabilité
 
-Diagramme de Venn
+```{r densite, echo=FALSE}
+layout(t(1:2))
+plot(0:11, sapply(0:11, function(k) dbinom(k, size=10, prob=0.5) ), type="h", 
+     lwd=5, col="steelblue", main="", xlab="Valeurs discrètes", ylab="Probabilité")
+plot(dnorm, xlim=c(-3,3), lwd=5, col="steelblue", main="", xlab="Valeurs continues", ylab="Densité")
+```
 
-## Probabilité -- Densité
+## Probabilité -- Fonction de répartition
 
-
-## Probabilité -- Distribution
-
+```{r repartition, echo=FALSE}
+layout(t(1:2))
+plot(stepfun(0:11, c(0,sapply(0:11, function(k) pbinom(k, size=10, prob=0.5) ))), 
+    lwd=5, col="steelblue", main="", xlab="Valeurs discrètes", ylab="Quantiles",
+    verticals=F,pch=16)
+plot(pnorm, xlim=c(-3,3), lwd=5, col="steelblue", main="", xlab="Valeurs continues", ylab="Quantiles")
+```
 
 
 ## Types de mesures
@@ -59,11 +82,30 @@ D | Distance (?)                   | ...
 
 # Lois discrètes usuelles
 
+
+```{r source_discretes, echo=FALSE}
+source('../package/bernoulli.R')
+source('../package/binomiale.R')
+source('../package/poisson.R')
+```
+
 ## Bernoulli
+
+```{r bernoulli, echo = FALSE}
+bernoulli()
+```
 
 ## Binomiale
 
+```{r binomiale, echo = FALSE}
+binomiale()
+```
+
 ## Poisson
+
+```{r poisson, echo = FALSE}
+poisson()
+```
 
 # Lois continues usuelles
 
@@ -104,9 +146,6 @@ fisher()
 ```{r student, echo = FALSE}
 student()
 ```
-
-# Parentées
-
 
 
 

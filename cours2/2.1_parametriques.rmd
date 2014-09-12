@@ -8,8 +8,6 @@ output: ioslides_presentation
 
 # Moyenne(s)
 
-## Test $Z$
-
 ## Test de Student
 
 ## Test de Student

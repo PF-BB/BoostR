@@ -12,7 +12,7 @@ runtime: shiny
 ## Quelques uns des tests disponibles sous R {.smaller}
 
 ```{r}
-apropos(".test")
+apropos("\\.test")
 ```
 
 

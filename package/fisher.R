@@ -7,14 +7,14 @@ fisher <- function() {
                             column(4, sliderInput('df2', 'Degrés de liberté dénominateur', 3, 100, 3, 1)), 
                             column(4, checkboxInput("addnorm", "Loi normale ?", value = FALSE))),
                    mainPanel(tabsetPanel(
-                     tabPanel("Densité de probabilité", fluidRow(plotOutput('dens'), height = "400px")),
-                     tabPanel("Fonction de répartition", fluidRow(plotOutput('dist'), height = "400px")),
+                     tabPanel("Distribution de probabilité", fluidRow(plotOutput('dist'), height = "400px")),
+                     tabPanel("Fonction de répartition", fluidRow(plotOutput('repa'), height = "400px")),
                      tabPanel("Moyenne et écart-type", fluidRow(tableOutput('mean_std'), height = "400px"))
                    ))
     ),
     server = function(input, output, session) { 
       
-      output$dens <- renderPlot(height = 400, {
+      output$dist <- renderPlot(height = 400, {
         plot(function(x) df(x,input$df1,input$df2), 
              lwd=2, xlab="x", ylab="Densité", 
              xlim=c(-0.1,5), ylim=c(0,2),  
@@ -29,7 +29,7 @@ fisher <- function() {
         
       })
       
-      output$dist <- renderPlot(height = 400, {
+      output$repa <- renderPlot(height = 400, {
         plot(function(x) pf(x,input$df1,input$df2), 
              lwd=2, xlab="x", ylab="Quantile", 
              xlim=c(-0.1,5), ylim=0:1,  

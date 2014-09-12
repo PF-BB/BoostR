@@ -6,14 +6,14 @@ chideux <- function() {
                             column(4, sliderInput('df', 'Degrés de liberté', 1, 20, 3, 1)), 
                             column(4, checkboxInput("addnorm", "Loi normale ?", value = FALSE))),
                    mainPanel(tabsetPanel(
-                     tabPanel("Densité de probabilité", fluidRow(plotOutput('dens'), height = "400px")),
-                     tabPanel("Fonction de répartition", fluidRow(plotOutput('dist'), height = "400px")),
+                     tabPanel("Distribution de probabilité", fluidRow(plotOutput('dist'), height = "400px")),
+                     tabPanel("Fonction de répartition", fluidRow(plotOutput('repa'), height = "400px")),
                      tabPanel("Moyenne et écart-type", fluidRow(tableOutput('mean_std'), height = "400px"))
                    ))
     ),
     server = function(input, output, session) { 
       
-      output$dens <- renderPlot(height = 400, {
+      output$dist <- renderPlot(height = 400, {
         plot(function(x) dchisq(x,input$df), 
              lwd=2, xlab="x", ylab="Densité", 
              xlim=c(-0.1,2*input$df), ylim=c(0,0.5),  
@@ -26,7 +26,7 @@ chideux <- function() {
         
       })
       
-      output$dist <- renderPlot(height = 400, {
+      output$repa <- renderPlot(height = 400, {
         plot(function(x) pchisq(x,input$df), 
              lwd=2, xlab="x", ylab="Quantile", 
              xlim=c(-0.1,2*input$df), ylim=0:1,  

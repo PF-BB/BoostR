@@ -6,21 +6,60 @@ output: ioslides_presentation
 subtitle: BoostR
 ---
 
-# Notion de variable aléatoire
+## Notion de variable aléatoire {.build}
 
-## bla
+> * Exemples sur les jeux d'argent : pile ou face, jeu de dés etc.
+> * Exemple du contrôle qualité : la pièce produite est soit bonne, soit mauvaise.
+> * Attribution d'une valeur à des ensembles d'événements lors de la réalisation d'une expérience aléatoire.
+> * Ensemble d'expériences (de réalisations) : *échantillon*.
 
+# Exercice {.flexbox .vcenter}
 
-What if we want to <i>*italicize*</i> or **bold**?
+<font size="9">
+Calculer l'intervalle de confiance sur la moyenne de l'ensemble des tailles (en cm) de la classe.
+</font> 
 
-* In a list, I may want to _italicize_ or __bold__ this way.
+## Procédure
 
-I can also include inline `code` or 
-
+* Relevé des mesures.
+* Saisie dans le logiciel avec la commande `c`.
+```{r}
+x <- c(186, 175, 167)
 ```
-blocks of code
-```
-Or even a [link](http://google.com)
-
 
 # Estimation
+
+## Estimation de la moyenne
+
+$$\bar x = \frac{1}{n} \sum_{i=1}^{n} x_i$$
+
+Exemple : calculer la moyenne des tailles.
+
+## Estimation de la variance
+
+$$ s^2 = \frac{1}{n-1} \sum_{i=1}^{n} \left( x_i - \bar x \right)^2 $$
+
+Exemple : calculer la variance des tailles.
+
+## Estimation de la proportion
+
+$$ p = \frac{N}{M}, $$
+où $N$ est le nombre d'événements d'intérêt, et $M$ le nombre d'événements de référence.
+
+Exemple : calculer la proportion de garçons.
+
+## Estimation de la médiane, généralisation au quantile
+
+$$\text{median}(x) = F^{-1}(0.5)$$
+
+Quantile d'ordre $q$ :
+$$Q_{q}(x) = F^{-1}(q)$$
+
+Exemple : calculer la médiane des tailles.
+
+## Notion de Rang
+
+* Utile pour le calcul des quantiles et donc pour le calcul de l'estimation de la fonction de répartition.
+* Utile pour quelques tests non paramétriques.
+
+Exemple : ranger un sous échantillon contenant des ex-aequos.

@@ -1,10 +1,9 @@
-gaussienne <- function() {
+poisson <- function() {
   require(shiny)
   shinyApp(
     ui = fluidPage(responsive = FALSE,
                    fluidRow(style = "padding-bottom: 20px;",
-                            column(4, sliderInput('mu', 'Moyenne', -3, 3, 0, 0.1)), 
-                            column(4, sliderInput('sigma', 'Ecart-type', 0, 2, 1, 0.1))),
+                            column(4, sliderInput('lambda', HTML("&lambda;:"), 0, 10, 2, 0.1))),
                    mainPanel(tabsetPanel(
                      tabPanel("Distribution de probabilité", fluidRow(plotOutput('dist'), height = "400px")),
                      tabPanel("Fonction de répartition", fluidRow(plotOutput('repa'), height = "400px")),
@@ -14,25 +13,32 @@ gaussienne <- function() {
     server = function(input, output, session) { 
       
       output$dist <- renderPlot(height = 400, {
-        plot(function(x) dnorm(x,input$mu,input$sigma), 
-             lwd=2, xlab="x", ylab="Densité", 
-             xlim=c(-5,5), ylim=0:1,  
-             n=201)
+        plot(0:10, sapply(0:10, dpois, lambda=input$lambda), 
+             lwd=2, type="h", xlab="x", ylab="Probabilité", 
+             xlim=c(-0.1,10.1), ylim=c(0, 0.5))
         grid()
       })
       
       output$repa <- renderPlot(height = 400, {
-        plot(function(x) pnorm(x,input$mu,input$sigma), 
+        plot(stepfun(0:10, c(0, sapply(0:10, ppois, lambda=input$lambda))), 
              lwd=2, xlab="x", ylab="Quantile", 
-             xlim=c(-5,5), ylim=0:1,  
-             n=201)
+             xlim=c(-0.1,10.1), ylim=0:1, verticals=F)
         grid()
       })
       
       output$mean_std <- renderTable({ 
-        data.frame("Moyenne" = input$mu,
-                   "Ecart-type" =input$sigma, check.names = F) })
+        data.frame("Moyenne" = input$lambda,
+                   "Ecart-type" = input$lambda, check.names = F) })
     },
     options = list(height = 500)
   )
 }
+
+
+
+numericInput(
+  inputId = "beta",
+  label = HTML("&beta;:"),
+  value = 0.05,
+  step = 0.01
+)

@@ -7,9 +7,51 @@ output: ioslides_presentation
 runtime: shiny
 ---
 
-# Variabilité
+## Variabilité
 
-# Intervalles
+```{r variabilité, echo=FALSE, message=FALSE}
+require(beeswarm)
+set.seed(123)
+X   <- data.frame(x=rnorm(200), y=rnorm(200), z=rnorm(200))
+a <- X$x
+b <- apply(X,1,max)
+boxplot(data.frame(a,b), border = "orange", col=NA, width= c(0.5,0.5) , lwd=3)
+grid()
+beeswarm(data.frame(a,b), pch=16, col="steelblue", add=TRUE)
+```
 
-# Intervalles de confiance
+## Intervalles
+
+* Intervalle inter-quartile : $$I_{\text{IQ}} = Q_{0.75} - Q_{0.25}.$$
+* Etendue : $$\Delta = \max - \min.$$ 
+* Quantile d'ordre $q$ (%) : l'intervalle $$]-\infty ;  Q_{q/100}]$$ contient $q$% des données.
+* Comment calculer des intervalles sur des estimateurs ?
+
+## Intervalles de confiance {.build}
+
+* Nécessite certaines hypothèses sur la distribution des données.
+* Permet d'encadrer une estimation ponctuelle.
+* Dépend de la taille de l'échantillon $n$.
+
+$$ \left[ \bar x - t_{1-\frac{\alpha}{2}} \frac{s}{\sqrt n} ; \bar x + t_{1-\frac{\alpha}{2}} \frac{s}{\sqrt n} \right]$$
+
+```{r sqrt, echo=FALSE, message=FALSE, fig.height=3, fig.align='center'}
+plot(2:30, 1/sqrt(2:30), type="b", col="steelblue", lwd=3, main= "", xlab="n", ylab=expression(1/sqrt(n)))
+grid()
+```
+
+## Exemple classique : Intervalle de confiance sur la moyenne
+
+# Exercice {.flexbox .vcenter}
+
+<font size="9">
+Calculer l'intervalle de confiance sur la moyenne de l'ensemble des tailles (en cm) de la classe.
+</font> 
+
+## Procédure
+
+* Calculer la moyenne : `mean(x)`.
+* Calculer l'écart-type : `sd(x)`.
+* Calcul de l'intervalle de confiance $$\left[ \bar x - 1.96 \frac{s}{\sqrt n} ; \bar x + 1.96 \frac{s}{\sqrt n}\right].$$
+
 
