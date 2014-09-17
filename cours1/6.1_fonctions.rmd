@@ -1,8 +1,0 @@
----
-title: "Utilisation de fonctions"
-subtitle: "BoostR"
-author: "Vincent Guillemot"
-date: "Lundi 15 sept. 2014"
-output: ioslides_presentation
-runtime: shiny
----
