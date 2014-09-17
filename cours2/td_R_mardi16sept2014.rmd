@@ -1,0 +1,111 @@
+---
+title: 'Travaux dirigés : tests d''hypothèses'
+author: "Vincent Guillemot"
+date: "Mardi 16 septembre 2014"
+output: pdf_document
+---
+
+Le but de ce document est de présenter de la manière la plus suivie qu'il soit les tests d'hypothèses sous R. Quelques exercices seulement sont proposés, mais de façon très détaillée. Le lecteur est invité à suivre le cheminement proposé, ou éventuellement à proposer sa propre solution, puis à la comparer aux indications données.
+
+
+# Exercice 1 : Analyse de données transcriptomiques
+
+Les données transcriptomiques de grande dimension posent un problème particulier au statisticien : lorsque plusieurs milliers de tests sont effectués les uns à la suite des autres, il n'est plus possible de se fier au concept usuel de fiabilité statistique. Et la *p-value* elle même de l'ensemble de ces tests n'est plus interprétable. Dans cet exercice, nous verrons comment corriger un ensemble de *p-values*.
+
+## Consigne
+
+Le jeu de données que nous allons considérer est décrit comme suit[^1].
+
+[^1]: Ce fichier Rdata est extrait de la version 2.8.0 du package `multtest` (Pollard et al.).
+
+> *Gene expression data (3051 genes and 38 tumor mRNA samples) from the leukemia microarray study of Golub et al. (1999).*
+
+1. Chargez le jeu de données `golub.RData` avec la commande `load("golub.RData")`. Attention à bien spécifier le chemin du fichier ! Vous pouvez en savoir plus sur ce chemin en faisant un clic droit sur le fichier puis en cliquant sur "Propriétés".
+2. Pour effectuer un test de Student sur le premier "transcrit", il suffit d'exécuter la commande `t.test(golub[1, ] ~ golub.cl)`. La syntaxe que nous venons d'utiliser, avec le `~`, est une *formule*. Elle signifie, dans ce cas précis, que le vecteur à gauche est séparé en plusieurs groupes par le vecteur de droite. Imaginez une autre façon de faire en lisant l'aide du test ! Remarquez que `t.test(golub[1, ] ~ golub.cl)$p.value` permet d'extraire directement la *p-value* !!
+3. Initialisez un vecteur qui va contenir les *p-values* avec la commande `pval <- c()`. Ce vecteur est à présent vide.
+4. A l'aide d'une boucle `for`, remplissez ce vecteur de toutes les 3051 *p-values*. 
+5. Utilisez la fonction `p.adjust`pour calculer des *p-values* ajustées avec la commande `padj <- p.adjust(pval, "BH")`.
+6. Faites un graphique du résultat : `plot(pval, padj)`.
+
+## Proposition de solution
+
+```{r}
+load("golub.RData")
+t.test(golub[1, ] ~ golub.cl)$p.value
+t.test(golub[1, golub.cl==0], golub[1, golub.cl==1])$p.value
+
+pval <- c()
+
+for (i in 1:nrow(golub)) pval[i] <- t.test(golub[i, ] ~ golub.cl)$p.value
+padj <- p.adjust(pval, "BH")
+plot(pval, padj, xlab="P-value", ylab="P-value ajustée", main="Calcul du FDR", pch=16)
+grid()
+abline(0,1,col=2,lwd=2,lty=2)
+```
+
+
+# Exercice 2 : Analyse de puissance sur données simulées
+
+Une analyse de puissance est de nos jours couramment demandée lors de toute demande de financement d'un projet nécessitant l'acquisition de données biologiques. Le principe en est le suivant : se basant sur des connaissances _a priori_, l'expérimentateur peut-il donner une idée de la taille de l'échantillon qui lui sera nécessaire pour réaliser son expérience.
+
+## Consigne
+
+1. Afficher l'aide la fonction `power.t.test` à l'aide de la commande `?power.t.test`.
+2. Cette fonction permet notamment de calculer l'effectif d'un échantillon nécessaire pour un risque $\alpha$ donné, un risque $\beta$ donné, ainsi que les deux valeurs attendues des deux proportions. Vérifier que le résultat de la commande `power.prop.test(p1=0.5, p2=0.7, power=0.9)` est que la taille de l'échantillon doit être de $n \approx 124$.
+3. On voudrait vérifier cela avec des données simulées. Pour cela il faut d'abord comprendre comment fonctionne un test de comparaison de deux proportions : exécutez la commande `prop.test( c(50, 70), c(100, 100))`. On vient de comparer les deux proportions (50 % et 70 %) quand les deux échantillons ont une taille de 100. 
+4. Générez $2 \times 1000$ échantillons issues d'une loi binomiale de paramètres $p_1=0.5$ et $p_2 = 0.7$ respectivement et de taille $n=124$. Combien de ces tests sont significatifs au niveau $\alpha=5$% ?
+
+
+## Proposition de solution
+
+Le résultat de la fonction permettant de calculer la taille de l'échantillon pour la comparaison de deux proportions est le suivant.
+```{r}
+power.prop.test(p1=0.5, p2=0.7, power=0.9)
+```
+
+Dans un premier temps, on exécute seulement le test sur les proportions que nous avons imaginé mesurer : de 50 % et 70 % sur des échantillons contenant tous les deux 100 individus. 
+```{r}
+prop.test( c(50, 70), c(100, 100))
+```
+Il n'y a pas de processus aléatoire dans ce que nous venons de faire : introduisons de l'aléatoire en générant deux échantillons de loi binomiale de paramètres $p_1=0.5$ et $p_2 = 0.7$ respectivement et de taille $n=124$.
+```{r}
+x1 <- rbinom(n=124, size=1, prob = 0.5)
+x2 <- rbinom(n=124, size=1, prob = 0.7)
+
+p_chapo <- c(sum(x1), sum(x2))
+prop.test( p_chapo, c(124, 124))
+```
+Nous venons de refaire le même test  sur un échantillon aléatoire : $\hat p$ est la proportion *estimée* sr cet échantillon. Attention à bien changer $n$ à 124 dans la procédure de test !
+
+Générons maintenant 1000 échantillons de la même manière, faisons un test sur ces 1000 échantillons et stockons le résultat dans un vecteur.
+```{r}
+N <- 124
+
+pval <- c()
+
+for (i in 1:1000){
+  x1 <- rbinom(n=N, size=1, prob = 0.5)
+  x2 <- rbinom(n=N, size=1, prob = 0.7)
+  p_chapo <- c(sum(x1), sum(x2))
+  
+  pval[i] <- prop.test( p_chapo, c(N, N))$p.value
+}
+
+100*sum(pval < 0.05)/1000
+```
+
+La puissance se mesure, sur cette expérience, en calculer tous les tests qui ont passé le seuil de 5% en *p-value*.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,21 +1,18 @@
 ---
-title: "Tests d'hypothÃ¨se"
+title: "Tests d'hypothèse"
 subtitle: "BoostR"
 author: "Vincent Guillemot"
 date: "Mardi 16 sept. 2014"
-output: ioslides_presentation
+output: beamer_presentation
 ---
 
-## Test d'hypothÃ¨se
+## Test d'hypothèse
 
-> Evaluation d'un certain type de modÃ¨les statistiques Ã  partir d'un jeu de donnÃ©es.
+> Evaluation d'un certain type de modèles statistiques à partir d'un jeu de données.
 
 
 # Visualisation
 
-<center>
-![Circos](../images/circos.png)
-</center>
 
 ## Avant tout test : Visualiser !
 
@@ -30,7 +27,9 @@ grid()
 beeswarm(X, pch=16, col="steelblue", add=TRUE)
 ```
 
-Au cours de la visualisation : inspecter les donnÃ©es Ã  la recherche de particularitÃ©s qui auront une influence forte sur l'analyse statistique.
+\small 
+Au cours de la visualisation : inspecter les données à la recherche de particularités qui auront une influence forte sur l'analyse statistique.
+
 
 ## Outliers
 
@@ -40,10 +39,10 @@ grid()
 beeswarm(X.o, pch=16, col="steelblue", add=TRUE)
 ```
 
-## Nombre d'Ã©chantillons
+## Nombre d'échantillons
 
 ```{r nb_sample, echo=FALSE, message=FALSE}
-boxplot(X[1:4,], border = "orange", col=NA, width= c(0.5,0.5) , lwd=3, main="Trop peu d'Ã©chantillons")
+boxplot(X[1:4,], border = "orange", col=NA, width= c(0.5,0.5) , lwd=3, main="Trop peu d'échantillons")
 grid()
 beeswarm(X[1:4,], pch=16, col="steelblue", add=TRUE)
 ```
@@ -56,32 +55,43 @@ grid()
 beeswarm(X.b, pch=16, col="steelblue", add=TRUE)
 ```
 
-## Nature des variables considÃ©rÃ©es
+## Nature des variables considérées
+
+- Nominale
+- Discrète
+- Continue
+- Existe-t-il un appariement
+
 
 # Tests classiques
 
 ## Approche de Neyman & Pearson
 
-HypothÃ¨se nulle | HypothÃ¨se alternative
+\small 
+
+Hypothèse nulle | Hypothèse alternative
 --- | ----
-La moyenne vaut 0 | La moyenne est diffÃ©rente de 0
-La moyenne est suppÃ©rieure Ã  0 | La moyenne est infÃ©rieure Ã  0
-La corrÃ©lation vaut 0 | La corrÃ©lation est diffÃ©rente de 0
-Les $k$ moyennes sont Ã©gales | Au moins deux des moyennes sont diffÃ©rentes
+La moyenne vaut 0 | La moyenne est différente de 0
+La moyenne est supérieure à 0 | La moyenne est inférieure à 0
+La corrélation vaut 0 | La corrélation est différente de 0
+Les $k$ moyennes sont égales | Au moins deux des moyennes sont différentes
 
 ## Approche de Neyman & Pearson -- Erreurs de types I et II
 
 |                              | $\mathcal H_0$ est vraie | $\mathcal H_0$ est fausse |
 |------------------------------|--------------------------|---------------------------|
-| $\mathcal H_0$ est acceptÃ©e  |                          |    Erreur de type I       |
-| $\mathcal H_0$ est rejetÃ©e   |     Erreur de type II    |                           |
+| $\mathcal H_0$ est acceptée  |                          |    Erreur de type II       |
+| $\mathcal H_0$ est rejetée   |     Erreur de type I     |                           |
 
 
 > - $\alpha$ : risque de commettre une erreur de type I,
 > - $\beta$  : risque de commetre une erreur de type II,
 > - $1-\beta$  : puissance du test.
-
+> - Il faut fixer $\alpha$ et $\beta$ avant toute analyse, voire an amont de l'expérience.
 
 ## Approche de Fisher
 
+> Il est trop restrictif de fixer $\alpha$ avant d'en connaître plus sur les résultats.
+
+Plutôt que de regarder uniquement le résultat de l'expérience à travers ces deux quantités, s'intéresser à la *p-value* permet de quantifier la significativité du résultat.
 
