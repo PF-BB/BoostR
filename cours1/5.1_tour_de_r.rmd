@@ -1,13 +1,40 @@
 ---
-title: "R, RStudio & R Markdown"
+title: "R, objets et commandes"
 subtitle: "BoostR"
 author: "Vincent Guillemot"
 date: "Lundi 15 sept. 2014"
 output: ioslides_presentation
 ---
 
-# Commandes, objets et classes
+# R
 
+## Comprehensive R Archive Network -- CRAN
+
+<center><a href="http://www.cran.r-project.org">   <img 
+  src="../images/logo_R.png"
+  alt="CRAN"
+  width=500 border="0"/>
+</a></center>
+
+## Console frustre
+
+* Ouvrir un "terminal" : Menu -> Outils -> Konsole
+* Démarrer R : R + "Entrée"
+* Informations sur la version de R démarrée
+* "Invite de commande" : `>` ou bien `+` ou bien "rien"...
+* Installation d'un `package` en ligne de commande.
+
+## R Studio
+
+<center><a href="http://www.rstudio.com">
+  <img 
+  src="../images/RStudio-Ball.png" 
+  alt="R Studio"
+  width=500 border=0/>
+</a></center>
+
+
+# Commandes, objets et classes
 
 ## Commandes de base
 
@@ -44,12 +71,127 @@ D'autres servent à la lisibilité...
 `help.search` | Version plus complète de `??` | `help.search("t-test")` mais pas `help("t-test")`
 `RSiteSearch` | Aide en ligne | `RSiteSearch("Fleiss' kappa")`
 
-# Fonctionalités de RStudio
+## Types et classes
 
+Le type est lié au stockage en mémoire :
 
-# R Markdown
+* `character` : `lettre <- "a"`
+* `double` : `nombre <- 2.0`
+* `integer` : `entier <- 1L`
+* `logical` : `TRUE` ou `T` ou `FALSE` ou `F`
+* Valeurs particulières : `NA`, `+Inf`, `NaN`
 
+Tandis que la classe est liée à la manière de *combiner* plusieurs valeurs
 
+* `vector` : `v <- c("a", "b", "a")`
+* `factor` : `fac <- factor(v)`
+* etc.
 
+## Transformations
 
+* `as.integer`
+* `as.numeric`
+* `as.character`
+* `as.factor`
+* `as.vector`
+* ...
+
+Conclusion : les types et les classes, et le passage de certaines classes à d'autres, sous R sont l'une des grandes sources d'erreurs dans un programme
+
+## Fonctions
+
+Une fonction permet de transformer des arguments (inputs) en résultats (outputs).
+
+Par exemple :
+```{r}
+s <- "My grandmother started walking five miles a day 
+when she was sixty. She's ninety-seven now, 
+and we don't know where the hell she is."
+nchar(s)
+x <- 2*pi
+cos(x)
+```
+
+## Vecteurs
+
+Un vecteur est une collection, sans dimension, d'objets du même type (ou presque).
+
+```{r}
+a <- 1:5
+x <- letters[1:10]
+x[-(2:3)]
+```
+
+## Matrices
+
+Une matrice est une collection à deux dimensions !
+
+```{r}
+A <- matrix(0, 2, 2)
+B <- matrix(c("un","deux","trois","quatre"), 2, 2)
+A[1,]
+B[2,2]
+```
+
+## Tableaux de données
+
+Un tableau de données permet de combiner dans une structure en deux dimensions des éléments de classes différentes.
+
+```{r}
+D <- data.frame(a=1:10, b=letters[1:10], cos=cos(2*pi*1:10))
+D[1:2,2:3]
+D$a[3]
+D[[1]]
+```
+
+## Listes
+
+Les tableaux de données en R sont des listes particulières !
+
+```{r}
+L <- list(1:10, b=3, f=cos, char=letters[5:7])
+names(L)
+```
+
+## Exercices
+
+* Créer une matrice de nombres aléatoires (`rnorm`).
+* Calculer la somme des colonnes (`colSums`).
+* Quels sont les éléments > 0 ?
+* Créer une deuxième matrice de mêmes dimensions, mais remplie de 1.
+* La coller à la première (`rbind` ou `cbind`)
+
+# Statistiques classiques en R
+
+## Moyenne etc.
+
+Pour obtenir des estimateurs ponctuels, différentes solutions sont possibles :
+
+* `mean`, `var`, `sd`...
+* `quantile`
+* `summary`
+
+Toutes permettent de gérer les données manquantes
+
+## Histogramme
+
+```{r}
+hist(rnorm(10), xlab="x", main="")
+```
+
+## Diagramme en bâtons
+
+```{r}
+barplot(c(a=10,b=4,c=6))
+```
+
+## Fonction de répartition empirique
+
+```{r}
+plot(ecdf(rnorm(10)), xlab="x", main="")
+```
+
+## Diagramme de Tukey ou `boxplot`
+
+Le diagramme de Tukey, ou `boxplot` permet de représenter de manière synthétique les quartiles d'un échantillon.
 

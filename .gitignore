@@ -6,3 +6,9 @@
 
 # R data files from past sessions
 .Rdata
+
+# Do not track PDF and HTML output files
+*.pdf
+*.html
+
+*~
