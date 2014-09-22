@@ -1,0 +1,98 @@
+---
+title: "Modèles linéaires"
+author: "Vincent Guillemot"
+date: "Mercredi 24 septembre  2014"
+output: beamer_presentation
+---
+
+# Tests d'hypothèses : quelques remarques
+
+## Préliminaires
+
+\small
+
+De nombreux tests sont disponibles de base en R ! Parmi eux :
+```{r, echo=TRUE, eval=FALSE}
+apropos("\\.test")
+```
+
+Quelques tests peuvent prendre comme argument des *formules* (qui contiennent un `~`).
+```{r, results='hide'}
+x <- c(1.1, 1.2, 0.9, 1.3,
+       3.4, 3.5, 3.3)
+
+couleurs <- factor(c("bleu",  "bleu",  "bleu",  "bleu",
+                    "rouge", "rouge", "rouge"))
+
+x ~ couleurs
+```
+
+## Comparaison de deux échantillons
+
+Les *formules* peuvent être utilisées pour la comparison de moyennes :
+```{r}
+t.test( x ~ couleurs, var.equal=TRUE)
+```
+
+----------------------
+
+L'équivalent non paramétrique est le test de Wilcoxon-Mann-Whitney :
+```{r}
+wilcox.test( x ~ couleurs )
+```
+
+# Corrélation
+
+## Définition
+
+> Exemple : période de gestation (semaines) et le poids (ounces) de 200 nouveaux nés de Caroline du Nord.[^1]  
+
+[^1]: http://www.math.hope.edu/swanson/statlabs/data.html
+
+
+      | Mesure 1 | Mesure 2 | Mesure 3 | Mesure 4 
+---------------------------------------------------
+Gest. |   39     |   39     |    37    |    40    
+Poids |   158    |   146    |    128   |    150   
+
+
+```{r, echo=F}
+lien <- "http://www.math.hope.edu/swanson/data/nc200.txt"
+X1 <- read.table(lien, skip=6, header=T, na.strings = "*")
+```
+
+
+
+## Cas particulier : les données appariées
+
+> Exemple : 
+
+Traitement | Mesure 1 | Mesure 2 | Mesure 3 | Mesure 4
+------------------------------------------------------
+Placebo    |   2.5    |   2.1    |    3.4   |    1.8
+Traitement |   0.8    |   1.9    |    2.0   |    1.5
+
+```{r}
+X2 <- data.frame(traitement = c(2.5, 2.1, 3.4, 1.8), 
+                placebo    = c(0.8, 1.9, 2.0, 1.5))
+```
+
+
+## Rappel : représentation graphique
+
+```{r, eval=FALSE}
+plot(X1)
+```
+
+
+```{r, echo=F}
+layout(t(1:2))
+plot(X1)
+plot(X2)
+```
+
+
+# Modèle linéaire
+
+
+# Remarques sur la sélection de variables

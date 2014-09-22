@@ -1,0 +1,28 @@
+---
+title: "TP numéro 3 : Heatmap"
+author: "Vincent Guillemot"
+date: "24/09/2014"
+output: pdf_document
+---
+
+-----------------------------------
+
+> Sujet numéro 1 : étude de l'expression de gènes dans certaines zones du cerveau. Visualisation et comparaison de l'expression de ces gènes 
+
+-----------------------------------
+
+```{r}
+sondes <- c("1566887_x_at", "233313_at", "241762_at", "239629_at", "237768_x_at",
+            "202279_at", "202712_s_at", "205514_at", "202433_at", "201199_s_at",
+            "242829_x_at", "215978_x_at", "211071_s_at", "201341_at", "242372_s_at",
+            "223480_s_at", "218302_at", "201570_at", "228546_at", "238558_at",
+            "219389_at", "235850_at", "226627_at", "209001_s_at", "200027_at",
+            "226086_at", "201628_s_at", "230656_s_at", "200639_s_at")
+```
+
+
+[article](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2826117/#SD1)
+
+[dataset](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5281)
+
+
