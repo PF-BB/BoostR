@@ -1,199 +1,149 @@
 ---
-title: "BoostR <br> Biostatistique avec R"
-subtitle: "Introduction à l'utilisation du logiciel R en Biostatistique"
+title: "Corrélation et modèles linéaires"
 author: "Vincent Guillemot"
 date: "Lundi 15 sept. 2014"
-output: ioslides_presentation
-runtime: shiny
+output: beamer_presentation
 ---
 
-```{r echo = FALSE, message=FALSE}
-require(knitr)
-hook_source_def = knit_hooks$get('source')
-knit_hooks$set(source = function(x, options){
-  if (!is.null(options$verbatim) && options$verbatim){
-    opts = gsub(",\\s*verbatim\\s*=\\s*TRUE\\s*", "", options$params.src)
-    bef = sprintf('\n\n    ```{r %s}\n', opts, "\n")
-    stringr::str_c(bef, paste(knitr:::indent_block(x, "    "), collapse = '\n'), "\n    ```\n")
-  } else {
-     hook_source_def(x, options)
-  }
-})
+## Tests d'hypothèses : quelques remarques
+
+De nombreux tests sont disponibles de base en R ! Parmi eux :
+```{r, echo=TRUE, eval=F}
+apropos("\\.test")
 ```
 
-## But de la Formation
+Quelques tests peuvent prendre comme argument des *formules* (qui contiennent un `~`).
+```{r, results='hide'}
+x <- c(1.1, 1.2, 0.9, 1.3, 
+       3.4, 3.5, 3.3)
 
- - Rappels de Biostatistique
-\[\bar x = \frac{1}{n}\sum_{i=1}^n x_i, s^2 = \frac{1}{n-1}\sum_{i=1}^n \left( x_i - \bar x \right)^2\]
+couleurs <- factor(c("bleu",  "bleu",  "bleu",  "bleu",
+                    "rouge", "rouge", "rouge"))
 
- - Utilisation du logiciel R
+x ~ couleurs
+```
+
+
+## Comparaison de deux échantillons
+
+Les *formules* peuvent être utilisées pour la comparaison de moyennes :
 ```{r}
-x <- rnorm(100)
-mean(x)
-var(x)
+t.test( x ~ couleurs, var.equal=TRUE)
 ```
 
 
-## Biostatistique
+## Comparaison de deux échantillons
 
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-
-
- - Estimation
- 
-```{r estimation, echo=FALSE, fig.align='center'}
-X <- data.frame(a=c(rnorm(50,1),rnorm(50,3)), b=factor(rep(1:2,e=50)))
-boxplot(X$a, border = "steelblue", lwd=2, horizontal=TRUE, xlab="Mesures")
+L'équivalent non paramétrique est le test de Wilcoxon-Mann-Whitney :
+```{r}
+wilcox.test( x ~ couleurs )
 ```
 
-## Biostatistique
 
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
+## Corrélation : Définition
 
- - Tests d'hypothèses
+Exemple : période de gestation (semaines) et le poids (ounces) de 200 nouveaux nés de Caroline du Nord.[^1]  
 
-```{r test, echo=FALSE, fig.align='center'}
-boxplot(a ~ b, data = X, border = "steelblue", lwd=2, horizontal=TRUE, las=1, xlab="Mesures")
+[^1]: http://www.math.hope.edu/swanson/statlabs/data.html
+
+
+```{r, echo=F, results='asis'}
+tab1 <- data.frame(Variable=c("Gest","Poids"), 
+                   "Mesure1"=c(39,158), "Mesure2"=c(39,146), 
+                   "Mesure3"=c(37,128), "Mesure4"=c(40,150) )
+knitr::kable(tab1, "markdown")
 ```
 
-## Biostatistique
-
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-> Une définition
-
- - Modèles linéaires
- 
-```{r modele_lineaire, echo=FALSE, fig.align='center'}
-x <- rnorm(100)
-y <- -2*x + 0.8*rnorm(100)
-plot(x, y, col="steelblue", pch=16)
-abline(lm(y~x), col="grey", lwd=3)
-grid()
+```{r, echo=T}
+lien <- "http://www.math.hope.edu/swanson/data/nc200.txt"
+X1 <- read.table(lien, skip=6, header=T, na.strings = "*")
 ```
 
-## Comprehensive R Archive Network -- CRAN
+## Corrélation : calcul, intervalle de confiance et test
 
-<center><a href="http://www.cran.r-project.org">   <img 
-  src="images/logo_R.png"
-  alt="CRAN"
-  width=500 border="0"/>
-</a></center>
-
-## R Studio
-
-<center><a href="http://www.rstudio.com">
-  <img 
-  src="images/RStudio-Ball.png" 
-  alt="R Studio"
-  width=500 border=0/>
-</a></center>
-
-
-## R Markdown
-
-``` ### Titre de paragraphe ```
-```Générer un échantillon aléatoire de taille 100, ```
-```puis calculer sa moyenne : ```
-```{r, eval=FALSE, verbatim = TRUE}
-x <- rnorm(100)
-mean(x)
-```
-
-## R Markdown
-
-### Titre de paragraphe
-
-Générer un échantillon aléatoire de taille 100,
-puis calculer sa moyenne :
+\tiny
 
 ```{r}
-x <- rnorm(100)
-mean(x)
-```
-
-## Supports de cours -- GitHub
-
-<center><a href="https://github.com/PF-BB/BoostR">
-  <img 
-  src="images/notocat.jpg" 
-  alt="GitHub"
-  width=500 border=0/>
-</a></center>
-
-## Ressources pédagogiques -- Biostatistique
-
-
-## Ressources pédagogiques -- R
-
-
-# Let's go!
-
-<center>
-![Roomba](images/roomba.gif)
-
-</center>
-## Shiny something
-
-```{r cluster_shiny, echo=FALSE}
-kmeans_cluster <- function(dataset) { 
-  
-  require(shiny)  
-  
-  shinyApp(
-    ui = fluidPage(responsive = FALSE,
-      fluidRow(style = "padding-bottom: 20px;",
-        column(4, selectInput('xcol', 'X Variable', names(dataset))),
-        column(4, selectInput('ycol', 'Y Variable', names(dataset),
-                              selected=names(dataset)[[2]])),
-        column(4, numericInput('clusters', 'Cluster count', 3,
-                               min = 1, max = 9))
-      ),
-      fluidRow(
-        plotOutput('kmeans', height = "400px")  
-      )
-    ),
-    
-    server = function(input, output, session) {
-      
-      # Combine the selected variables into a new data frame
-      selectedData <- reactive({
-        dataset[, c(input$xcol, input$ycol)]
-      })
-      
-      clusters <- reactive({
-        kmeans(selectedData(), input$clusters)
-      })
-      
-      output$kmeans <- renderPlot(height = 400, {
-        par(mar = c(5.1, 4.1, 0, 1))
-        plot(selectedData(),
-             col = clusters()$cluster,
-             pch = 20, cex = 3)
-        points(clusters()$centers, pch = 4, cex = 4, lwd = 4)
-      })
-    },
-    
-    options = list(height = 500)
-  )
-}
-
-```
-
-```{r kmeans_cluster, echo = FALSE}
-# library(rmdexamples)
-kmeans_cluster(iris)
+cor.test(X1$Weight, X1$Gestation)
 ```
 
 
-(allongement des télomères alternatif (ALT) et de la télomérase transcriptase réverse (TERT), mutation du promoteur, statut mutationnel (H3.3 ou H3.1 K27, H3.3 G34, IDH1, TP53 et NF1), et des aberrations du nombre de copies de EGFR, CDKN2A, CDKN2B et PDGFRA. Ces associations sont regroupées par sous-groupe biologique et triés par âge.
+
+
+## Cas particulier : les données appariées
+
+Exemple : 
+
+```{r, echo=F, results='asis'}
+tab2 <- data.frame(Traitement=c("Placebo","Traitement"), 
+                   "Mesure1"=c(2.5,0.8), "Mesure2"=c(2.1,1.9), 
+                   "Mesure3"=c(3.4,2.0), "Mesure4"=c(1.8,1.5) )
+knitr::kable(tab2, "markdown")
+```
+
+```{r}
+X2 <- data.frame(traitement = c(2.5, 2.1, 3.4, 1.8), 
+                 placebo    = c(0.8, 1.9, 2.0, 1.5))
+```
+
+Argument `paired=TRUE` !
+
+## Rappel : représentation graphique
+
+A gauche : `plot(X1)`, à droite, `plot(X2)`.
+
+
+```{r, echo=F}
+layout(t(1:2))
+plot(X1)
+plot(X2)
+```
+
+
+## Modèle linéaire
+
+\tiny 
+
+La fonction `lm` n'accepte que des formules : 
+```{r}
+modele <- lm(Gestation ~ Weight, data=X1)
+```
+```{r}
+summary(modele)
+```
+
+## Remarque : lien entre corrélation et régression linéaire
+
+\small
+
+Attention aux données manquantes !
+```{r}
+cor(X1$Weight, X1$Gestation)
+X1_sansNA <- na.omit(X1)
+```
+
+
+```{r}
+coef(modele)
+with(X1_sansNA, 
+     cor(Weight, Gestation)*sd(Gestation)/sd(Weight))
+```
+
+
+
+## Modèle linéaire : utilisation sur un graphique
+
+```{r}
+modele <- lm(Gestation ~ Weight, data=X1)
+plot(Gestation ~ Weight, data=X1)
+abline(modele, col=2)
+```
+
+
+
+## Remarques sur la sélection de variables
+
+La fonction `step` permet de mettre en oeuvre de la régression "pas à pas" (stepwise).
+
+Le but : trouver le modèle contenant le plus d'information et le moins de variables.
+

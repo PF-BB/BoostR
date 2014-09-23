@@ -2,97 +2,165 @@
 title: "Modèles linéaires"
 author: "Vincent Guillemot"
 date: "Mercredi 24 septembre  2014"
-output: beamer_presentation
+output: pdf_document
 ---
 
-# Tests d'hypothèses : quelques remarques
+# Rappels : vecteurs, matrices, tableaux et listes
 
-## Préliminaires
+## Déclaration et indexation de vecteurs et de matrices
 
-\small
+Déclarons tout d'abord un vecteur `a` contenant les entiers pairs de 2 à 20. Le tableau suivant présente quelques solutions qui permettent de générer un tel vecteur :
 
-De nombreux tests sont disponibles de base en R ! Parmi eux :
-```{r, echo=TRUE, eval=FALSE}
-apropos("\\.test")
-```
+Solution 1         | Solution 2 | Solution 3
+-------------------|------------|-----------------------
+`seq(2, 20, by=2)` | `2*(1:10)` | `(1:20)[1:20 %% 2 ==0]`
 
-Quelques tests peuvent prendre comme argument des *formules* (qui contiennent un `~`).
-```{r, results='hide'}
-x <- c(1.1, 1.2, 0.9, 1.3,
-       3.4, 3.5, 3.3)
-
-couleurs <- factor(c("bleu",  "bleu",  "bleu",  "bleu",
-                    "rouge", "rouge", "rouge"))
-
-x ~ couleurs
-```
-
-## Comparaison de deux échantillons
-
-Les *formules* peuvent être utilisées pour la comparison de moyennes :
+Créons ensuite un *facteur ordonné* `b` à deux niveaux (`moins` et `plus` avec `moins` $<$ `plus`) : 
 ```{r}
-t.test( x ~ couleurs, var.equal=TRUE)
+b <- factor( rep(c("moins", "plus"), 10), ordered=TRUE )
 ```
 
-----------------------
+1. Utilisez la fonction `table` pour vérifier que l'on a bien 10 `moins` et 10 `plus`. 
+2. Représentez graphiquement le résultat de `table` avec la fonction `barplot`.
 
-L'équivalent non paramétrique est le test de Wilcoxon-Mann-Whitney :
+> Attention (rappel) ! L'ordre qui est utilisé lors de la création de tels facteurs est l'ordre alphabétique. Par exemple le facteur ordonné `factor(c("moins", "plus", "entre les deux"), ordered=TRUE)` n'est pas dans le bon ordre par défaut. Il faut utiliser l'argument `levels` pour contraindre l'ordre entre les différents niveaux.
+
+3. Comparez le résultat des deux commandes suivantes : `b[a]` et `b[b=="plus"]`. Est-ce que c'est normal ? On remarque que le résultat est un facteur, mais qu'il comporte des modalités inutiles ! Utilisez la fonction `droplevels` sur l'un des deux résultats précédents pour éliminer les facteurs superflus.
+
+Travaillons maintenant sur une matrice carrée `A` ($4 \times 4$) contenant les entiers de 1 à 16 arrangés en lignes :
 ```{r}
-wilcox.test( x ~ couleurs )
+A <- matrix(1:16, 4, 4, byrow = TRUE)
 ```
 
-# Corrélation
+1. Extrayez la première ligne et la première colonne de cette matrice.
+2. Extrayez la matrice $2 \times 2$ qui se trouve au centre des `A` et qui contient les valeurs 6, 7, 10 et 11.
 
-## Définition
-
-> Exemple : période de gestation (semaines) et le poids (ounces) de 200 nouveaux nés de Caroline du Nord.[^1]  
-
-[^1]: http://www.math.hope.edu/swanson/statlabs/data.html
-
-
-      | Mesure 1 | Mesure 2 | Mesure 3 | Mesure 4 
----------------------------------------------------
-Gest. |   39     |   39     |    37    |    40    
-Poids |   158    |   146    |    128   |    150   
-
-
-```{r, echo=F}
-lien <- "http://www.math.hope.edu/swanson/data/nc200.txt"
-X1 <- read.table(lien, skip=6, header=T, na.strings = "*")
-```
-
-
-
-## Cas particulier : les données appariées
-
-> Exemple : 
-
-Traitement | Mesure 1 | Mesure 2 | Mesure 3 | Mesure 4
-------------------------------------------------------
-Placebo    |   2.5    |   2.1    |    3.4   |    1.8
-Traitement |   0.8    |   1.9    |    2.0   |    1.5
+### Proposition de solution
 
 ```{r}
-X2 <- data.frame(traitement = c(2.5, 2.1, 3.4, 1.8), 
-                placebo    = c(0.8, 1.9, 2.0, 1.5))
+a <- seq(2, 20, by=2)
+b <- factor( rep(c("moins", "plus"), 10), ordered=TRUE )
+table(b)
+barplot(table(b), col="steelblue")
+b[a]
+b[b=="plus"]
+droplevels(b[a])
+A <- matrix(1:16, 4, 4, byrow = TRUE)
+A[1,]
+A[,1]
+A[2:3, 2:3]
 ```
 
+## Déclaration et indexation de tableaux et de listes
 
-## Rappel : représentation graphique
+Nous nous baserons pour cet exercice sur un exemple directement inspiré des modèles linéaires. On considère le modèle linéaire suivant : on a deux mesures $x$ et $y$, et un modèle qui les lie \[y  = 2 x + \epsilon.\]  $\epsilon$ est un terme de bruit, que nous allons considérer pour cet exemple gaussien, de moyenne nulle et d'écart-type unitaire.
 
+Ce modèle ne fait pas spécialement d'hypothèses sur les distributions sous-jacentes (celles à l'origine des échantillons $x$ et $y$). On peut décider, pour cet exemple, de concrétiser un peu et de se dire que $x$ est une mesure de la "taille" d'individus (comprise uniformément entre 150 et 200 cm) et que $y$ est une mesure du poids de ces même individus. Sans bruit, le poids d'un individu est donc calculé en multipliant sa taille par 2.
+
+1. Générez un échantillon de taille 100 pour $x$ à l'aide de la fonction `runif`. Attention, pour respecter la philosophie de l'exemple, il faut spécifier les bornes `min` et `max`.
+2. Générez le bruit dans une variable `epsilon` avec la fonction `rnorm`.
+3. Générez $y$ en respectant le modèle spécifié ci-dessus.
+4. Placez $x$ et $y$ dans un objet de classe `data.frame`, appelé `B`, avec la commande suivante : `B <- data.frame(x=x, y=y)`.
+
+Pour représenter graphiquement notre expérience, nous pouvons utiliser un "biplot" :
 ```{r, eval=FALSE}
-plot(X1)
+plot(B, xlab="Taille (cm)", ylab="Poids (kg)")
+```
+
+Avec des *formules*, on peut reproduire le même graphique. Ce concept de formule est très utile en R. Il faut bien faire attention à la syntaxe : pour pouvoir interpréter une formule, R doit pouvoir interpréter chacun des termes. Le premier terme à gauche du signe ~ représente l'axe des ordonnées (vertical), ou encore la variable à expliquer (qui s'appelle très souvent, par convention, $y$). A gauche du signe ~, se trouve le reste du modèle, et donc l'ensemble des variables explicatives (ici, il n'y en a qu'une, $x$). Pour un graphe, il ne peut y avoir qu'une variable explicative, qui représente l'axe des abscisses (horizontal). 
+
+> Moyen mnémotechnique pour se souvenir du sens du signe ~ : quand vous lisez une formule, remplacez "~" par "en fonction de". Ainsi, "y~x" devient "y en *fonction de* x".
+
+Voici deux exemples de commandes qui permettent de reproduire le graphe de *$y$ en fonction de $x$* :
+```{r, eval=FALSE}
+plot(B$y~B$x, xlab="Taille (cm)", ylab="Poids (kg)")
+plot(y~x, data=B, xlab="Taille (cm)", ylab="Poids (kg)")
+```
+
+Pour la première commande, R sait ce que vaut chaque terme de la formule `B$y~B$x` : `B$y` existe bien, il s'agit de la colonne `y` qui se trouve dans `B` ; de même pour `B$x`. En revanche, pour la deuxième expression, R ne peut pas savoir qu'il s'agit des variables `x` et `y` contenues dans `B` qu'il faut lire au moment d'interpréter la formule `y~x`. Il faut donc lui préciser grâce à l'argument `data=B`.
+
+5. Stockez le résultat de la commande `cor.test(B$x, B$y)` dans la variable `res.test`. `res.test` est une liste ! Vérifiez le avec la fonction `mode` ! Attention, la commande `class(res.test)` donnera un résultat différent.
+6. Quels sont les différents éléments qui composent cette liste ? Utilisez la fonction `names`. Récupérez dans cette liste l'intervalle de confiance (`conf.int`) de la corrélation.
+
+### Proposition de solution
+
+```{r}
+x <- runif(100, 150, 200)
+epsilon <- rnorm(100)
+y <- 2*x + epsilon
+B <- data.frame(x=x, y=y)
+plot(B, xlab="Taille (cm)", ylab="Poids (kg)")
+
+res.test <- cor.test(B$x, B$y)
+c(mode(res.test), class(res.test))
+names(res.test)
+
+res.test$conf.int
+```
+
+### La régression simple
+
+1. Importer dans une variable nommée `X` le jeu de donné nommé `appart.csv`. *Indice : `read.csv`*.
+2. Tracer le graphe bivarié de la surface sur le prix. Que constate-t-on ? *Indice : `plot`*. 
+3. Construire un modèle linéaire reliant le prix à la surface. *Indice : `lm`*.
+4. Ajouter au graphe bivarié construit à la question 1, la droite de régression résultant du modèle de la question 2. *Indice : `abline`*.
+5. Donner les valeurs prédites par le modèle pour chacune des observations. *Indice : `predict`*.
+6. Observer les résidus. *Indice : `...$residuals`*.
+
+#### Proposition de correction.
+
+On peut construire `X` en utilisant la fonction `read.csv` :
+```{r}
+X <- read.csv("appart.csv")
+```
+
+Obtenir le plot bivarié s'obtient très rapidement avec la fonction `plot` :
+```{r}
+plot(X)
+```
+
+On constate qu'il y a un lien fort, comme on pouvait s'y attendre, entre la surface et le prix d'un appartement.
+En ajoutant le modèle linéaire au graphe, on se rend compte qu'il modélise très bien le lien entre les deux variables.
+```{r}
+plot(surface~prix, data=X, pch=16)
+abline(lm(surface~prix, data=X), col=2)
+grid()
+```
+
+La prédiction de la surface se fait avec la fonction `predict`. Il est important de réaliser que cette fonction peut s'utiliser sur de nouvelles données ! On peut donc prédire, avec le modèle construit, la surface d'un appartement quand on connaît son prix. 
+```{r, eval=F}
+res.lm <- lm(surface~prix, data=X)
+predict(res.lm, data=X)
+```
+
+Enfin, les résidus sont calculés en même temps que le modèle. On peut y accéder avec la commande suivante (quand le modèle a été attribué à une variable s'appelant `res.lm`) :
+```{r, eval=FALSE}
+res.lm$residuals
 ```
 
 
-```{r, echo=F}
-layout(t(1:2))
-plot(X1)
-plot(X2)
+### La régression multiple et la sélection de variables
+
+Reprenons l'exemple précédent et rajoutons deux variables qui n'ont absolument rien à voir avec le prix et la surface des appartements : une première variable `z1` constituée aléatoirement de 0 et de 1 et une deuxième variable `z2` constituée de valeurs aléatoires réparties uniformément entre 0 et 1.
+
+```{r}
+n <- nrow(X)
+X$z1 <- sample(0:1, n, replace=TRUE)
+X$z2 <- runif(n)
 ```
 
+Observons maintenant le résultat de l'ajustement d'un modèle linéaire multiple (c'est à dire contenant plus d'une variable) :
+```{r}
+summary(lm(surface ~ prix + z1 + z2, data=X))
+```
 
-# Modèle linéaire
+On remarque que les coefficients associés aux variables $z1$ et $z2$ ont des valeurs qui ne semblent pas proches de 0, et pourtant leur significativité dans le modèle est faible ! Il est donc important de toujours utiliser la fonction `summary` pour mettre en perspective les valeurs des coefficients.
 
+Enfin, il est possible d'utiliser la fonction `step` pour sélectionner le modèle permettant le mieux de décrire les relations entre les différentes variables :
+```{r}
+step(lm(surface ~ prix + z1 + z2, data=X))
+```
 
-# Remarques sur la sélection de variables
+Pour cet exemple très simple, les variables `z1` et `z2` ont été éliminées du modèle initial, et on a convergé vers un modèle du type `surface ~ prix`. Il faut faire attention au fait que la méthode utilisée est très sensible : le résultat dépend du nombre de variables, du nombre d'individus, et pose des hypothèses fortes sur la nature statistique des données.
+
+Par exemple, reprenons l'exemple précédent après avoir rajouté 10 variables aléatoire sans rapport avec le prix ou la surface au jeu de données `X`. *(à faire en exercice)*

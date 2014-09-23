@@ -7,28 +7,27 @@ output: pdf_document
 
 # Lire les données d’un fichier
 
-Il est possbile de lire les données stockées dans des fichiers sous format `txt` grâce, entre autres, aux fonctions
+Il est possible de lire les données stockées dans des fichiers sous format `txt` grâce, entre autres, aux fonctions
 suivantes: `read.table()`, `read.csv()`, `read.csv2()` et `scan()`. Par ailleurs, la fonction `read.xls()` (resp. `write.xls()`) du package `gdata` fournit les outils pour lire (resp. écrire) des fichiers au format Excel.
 
-Lorsque les données ont été sauvegardées sous le format propriétaire d'un logiciel statistique tiers, il est nécessaire de disposer d'outils permettant leur transfert vers le système. Par exemple les library `foreign` ou `gdata` offre ces outils pour une sélection des logiciels statistiques les plus courants (e.g. SAS, SPSS…). Par exemple, la fonction `read.spss()` prend en charge les données SPSS. La fonction `read.ssd()` prend en charge les tables permanentes SAS. Dans ce TP, nous nous limitons à la lecture des fichiers `.txt`, `.csv` et `.xls`.
+Lorsque les données ont été sauvegardées sous le format propriétaire d'un logiciel statistique tiers, il est nécessaire de disposer d'outils permettant leur transfert vers le système. Par exemple les library `foreign` ou `gdata` offre ces outils pour une sélection des logiciels statistiques les plus courants (e.g. SAS, SPSS...). Par exemple, la fonction `read.spss()` prend en charge les données SPSS. La fonction `read.ssd()` prend en charge les tables permanentes SAS. Dans ce TP, nous nous limitons à la lecture des fichiers `.txt`, `.csv` et `.xls`.
 
 ### Utilisation de la fonction `read.table()`
 
-1. Importer dans une variable nommée `A` le jeu de donné nommé `auto2004_original.txt`.
-2. Importer dans une variable nommée `B` le jeu de donnée `auto2004_sans_nom.txt`.
-3. Importer dans une variable nommée `C` le jeu de donnée `auto2004_virgule.txt`.
-4. Importer dans une variable nommée `D` le jeu de donnée `auto_don_manquante.txt`.
-5. Importer dans une variable nommée `E` le jeu de donnée `auto_don_manquante(99999).txt`.
-6. Quel est le mode des objets créer par la fonction `read.table()` ?
+1. Importer dans une variable nommée `A` le jeu de données nommé `auto2004_original.txt`.
+2. Importer dans une variable nommée `B` le jeu de données `auto2004_sans_nom.txt`.
+3. Importer dans une variable nommée `C` le jeu de données `auto2004_virgule.txt`.
+4. Importer dans une variable nommée `D` le jeu de données `auto_don_manquante.txt`.
+5. Importer dans une variable nommée `E` le jeu de données `auto_don_manquante(99999).txt`.
+6. Quel est le mode des objets créés par la fonction `read.table()` ?
 
 ### Utilisation de la fonction `read.xls()`
 
-Importer dans une variable nommée F le jeu de donné `bordeaux.xls`.
+Importer dans une variable nommée `F` le jeu de données `bordeaux.xls`.
 
 ### Enregistrer des données
 
-Créer la matrice suivante:
-  
+Créer la matrice suivante :
 \[
   A = \left[
     \begin{array}{cccc}
@@ -40,25 +39,18 @@ Créer la matrice suivante:
 \]
 
 1. Sauver `A` sous le nom de `matrice.txt` à une adresse valide. Que remarquez vous?
-2. Ajouter des arguments à la commande précédente pour retirer des noms aux lignes et aux colonnes du fichier crée.
+2. Ajouter des arguments à la commande précédente pour retirer des noms aux lignes et aux colonnes du fichier créé.
 3. Sauvegarder la data.frame `A` au format `.txt` sous le nom `auto.txt`.
-4. Sauver les objets présents en mémoire à l’adresse `/chemin/Donnees.Rdata`.
-5. Sauver les objets disponibles en mémoire vive à l’adresse `/chemin/` grâce à la fonction `setwd()`.
+4. Sauver les objets présents en mémoire à l’adresse `chemin/Donnees.Rdata`.
+5. Sauver les objets disponibles en mémoire vive à l’adresse `chemin/` grâce à la fonction `setwd()`.
 6. Sauver l'ensemble des données au format `.Rdata` grâce à la fonction `save`.
 
 # Les graphiques
 
-Créer la partition suivante :
-
-```{r, echo=FALSE}
-layout(matrix(c(1,1,2,3,4,4),ncol=2))
-layout.show(4)
-```
-
 1. Créer une matrice, `mat1`, composée de 100 lignes et deux colonnes; chacune des colonnes de loi normale centrée et de variance 1.
 2. Créer une matrice, `mat2`, composée de 100 lignes et deux colonnes; chacune des colonnes de loi normale de moyenne 1 et de variance 1.
 3. Tracer le graphe bivarié de la première colonne de `mat1` sur la deuxième colonne de `mat1`.
-4. Ajouter aux graphe précédent (et d’une couleur différente ; pour connaître la liste des couleurs disponible, tapez la commande `colors()`) le graphe bivarié de la première colonne de `mat2` sur la deuxième colonne de `mat2`. Que constatez vous?
+4. Ajouter au graphe précédent (et d’une couleur différente ; pour connaître la liste des couleurs disponibles, tapez la commande `colors()`) le graphe bivarié de la première colonne de `mat2` sur la deuxième colonne de `mat2`. Que constatez vous?
 5. Rectifier les problèmes que vous constatez à la question 4.
 
 ### Faillite d'entreprises
@@ -68,7 +60,7 @@ layout.show(4)
 3. Convertir `G` en une matrice `H`.
 4. Tapez la commande `plot(H)`. Que construit la fonction `plot()` dans le cadre des matrices ?
 5. Tapez la commande `plot(G)`. Que construit la fonction `plot()` dans le cadre d'objets de classe `data.frame` ?
-6. Faire un graphique ``esthétique'' du jeu de données `faillite` (couleur, titre, forme, labels, etc.).
+6. Faire un graphique "esthétique" du jeu de données `faillite` (couleur, titre, forme, labels, etc.).
 
 
 ### Les vins de Bordeaux
@@ -80,7 +72,7 @@ Variable | Description
 `TEMPERAT` | Somme des températures moyennes journalières (en °C)
 `SOLEIL`   | Durée d’insolation (en heures)
 `CHALEUR`  | Nombre de jours de grande chaleur
-`PLUIE`    | Hauteur de pluie en (en mm)
+`PLUIE`    | Hauteur de pluie (en mm)
 `QUALITÉ`  | 1 = BON, 2 = MOYEN et 3 = MÉDIOCRE
 
 
@@ -98,13 +90,13 @@ Qu’en concluez-vous?
 ### Test d'égalité de deux moyennes
 
 
-1. Importer dans une variable nommée `I` le jeu de donné nommé `faillite.csv`.
+1. Importer dans une variable nommée `I` le jeu de données nommé `faillite.csv`.
 2. Pour chacune des variables explicatives, on désire savoir s'il existe une différence significative entre les moyennes observées dans chacun des groupes (faillite/non-faillite). Réaliser le test approprié. 
 3. Stocker les 4 p-valeurs dans un vecteur.
 
 ### La régression simple
 
-1. Importer dans une variable nommée `J` le jeu de donné nommé `appart.xls`. Attention, les variables sont contenues dans différentes feuilles !
+1. Importer dans une variable nommée `J` le jeu de données nommé `appart.xls`. Attention, les variables sont contenues dans différentes feuilles !
 2. Tracer le graphe bivarié de la surface sur le prix. Que constate t’on ?
 3. Construire un modèle linéaire reliant le prix à la surface.
 4. Ajouter au graphe bivarié construit à la question 1, la droite de régression résultant du modèle de la question 2.
