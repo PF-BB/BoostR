@@ -1,0 +1,8 @@
+title: BoostR
+description: Introduction à l'utilisation du logiciel R en Biostatistique
+google_analytics: UA-54011121-1
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
